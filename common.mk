@@ -57,5 +57,4 @@ $(LINK_OBJ_DIR)/%.o: %.cpp
 	$(CC) $(CFLAGS) -I$(INCLUDE_PATH) -o $@ -c $(filter %.cpp, $^)
 
 $(DEP_DIR)/%.d: %.cpp
-	echo -n $(LINK_OBJ_DIR)/ > $@
 	$(CC) $(CFLAGS) -I$(INCLUDE_PATH) -MM $^ >> $@
