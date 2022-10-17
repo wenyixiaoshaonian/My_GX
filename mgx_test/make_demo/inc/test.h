@@ -1,4 +1,7 @@
 #include <iostream>
-#include <stdio.h>
+#include <bits/stdc++.h>
+#include <unistd.h>
+#include <string.h>
+
 int a = 23423;
 int b = 0;
