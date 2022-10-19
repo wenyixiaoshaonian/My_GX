@@ -317,11 +317,17 @@ void Mgx_socket::send_msg_th_func()
                     m_send_list_cnt--;
                     it = m_send_list.erase(it);     /* erase can it = it + 1 */
                     delete[] (*it);
+                    err = pthread_mutex_unlock(&m_send_queue_mutex);
+                    if (err != 0)
+                        mgx_log(MGX_LOG_STDERR, "pthread_mutex_unlock error: %s", strerror(err));
                     continue;
                 }
 
                 if (pconn->throw_send_cnt > 0) {
                     it++;
+                    err = pthread_mutex_unlock(&m_send_queue_mutex);
+                    if (err != 0)
+                        mgx_log(MGX_LOG_STDERR, "pthread_mutex_unlock error: %s", strerror(err));
                     continue;
                 }
 
