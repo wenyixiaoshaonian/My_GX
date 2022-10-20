@@ -6,6 +6,7 @@
 #include <vector>
 #include <queue>
 #include "mgx_thread.h"
+#include <semaphore.h>
 
 class Mgx_th_pool
 {
@@ -22,8 +23,8 @@ private:
     void signal_to_th();
 
     pthread_mutex_t m_mutex = PTHREAD_MUTEX_INITIALIZER;
-    pthread_cond_t  m_cond = PTHREAD_COND_INITIALIZER;
-
+    // pthread_cond_t  m_cond = PTHREAD_COND_INITIALIZER;
+    sem_t m_th_pool_sem;
     bool m_shutdown = false;
     int m_th_cnt;
     std::queue<char *> m_msg_queue;
