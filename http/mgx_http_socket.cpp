@@ -129,7 +129,7 @@ void Mgx_http_socket::th_msg_process_func(char *buf)
     }
     /* add mysql operation......*/
     // sql = new Mgx_mysql();
-    c->sql->query_table("student");
+    // c->sql->query_table("student");
     /* add mysql operation......*/
     http_write_response(&http_res, pmsg_hdr);
 
