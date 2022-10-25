@@ -19,7 +19,7 @@ public:
 private:
     static Mgx_conf *instance;
     std::unordered_map<std::string, std::string> configs;
-
+    int i;
 public:
     static Mgx_conf *get_instance()
     {

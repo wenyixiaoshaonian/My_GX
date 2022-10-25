@@ -16,6 +16,7 @@
 #include <cstring>
 #include "mgx_comm.h"
 #include "mgx_thread.h"
+#include "mgx_mysql.h"
 
 #define DEFAULT_LISTEN_PORT  100000
 #define DEFAULT_WORKER_CONNS 1024
@@ -53,6 +54,7 @@ struct _mgx_conn {
     uint32_t   events;
     struct sockaddr    conn_sockaddr;
     pthread_mutex_t m_mutex;
+    Mgx_mysql *sql;                 //mysql
 
     /* recv */
     unsigned char recv_stat;        /* receiving status of the current connection */

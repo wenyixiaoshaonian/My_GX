@@ -3,6 +3,7 @@
 #include "mgx_string.h"
 #include "mgx_conf.h"
 #include "mgx_file.h"
+#include "mgx_mysql.h"
 
 extern Mgx_th_pool g_mgx_th_pool;
 
@@ -77,9 +78,11 @@ void Mgx_http_socket::th_msg_process_func(char *buf)
     pmgx_msg_hdr_t pmsg_hdr = (pmgx_msg_hdr_t)buf;
     const char *request_body = buf + m_msg_hdr_size;
     char *uri = pmsg_hdr->uri;
+    pmgx_conn_t c;
     int fd = -1;
-
+    Mgx_mysql *sql;
     mgx_http_response_t http_res;
+    c = pmsg_hdr->pconn;
     http_res.headers["Server"] = "Mgx http server";
     http_res.headers["Connection"] = "keep-alive";
     if (pmsg_hdr->http_method == METHOD_GET) {
@@ -124,7 +127,10 @@ void Mgx_http_socket::th_msg_process_func(char *buf)
         http_res.response_body = new char[res_body.size() + 1]();
         memcpy(http_res.response_body, res_body.c_str(), res_body.size());
     }
-
+    /* add mysql operation......*/
+    // sql = new Mgx_mysql();
+    c->sql->query_table("student");
+    /* add mysql operation......*/
     http_write_response(&http_res, pmsg_hdr);
 
 out:
