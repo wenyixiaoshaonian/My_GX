@@ -1,6 +1,7 @@
 export BUILD_ROOT = $(shell pwd)
 
-export INCLUDE_PATH = $(BUILD_ROOT)/include
+export INCLUDE_PATH = $(BUILD_ROOT)/include 
+export INCLUDE_SQL_PATH = $(BUILD_ROOT)/mysql/inc
 
 export BIN = mgx
 
@@ -12,6 +13,6 @@ BUILD_DIR = $(BUILD_ROOT)/signal/  \
 			$(BUILD_ROOT)/http/     \
 			$(BUILD_ROOT)/app/     \
 
-export DEBUG = true
+export DEBUG = false
 
 export USE_HTTP = true

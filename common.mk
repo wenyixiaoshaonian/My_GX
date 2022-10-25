@@ -12,7 +12,7 @@ OBJDUMP     = $(CROSS_COMPILE)objdump
 
 CFLAGS := -Wall -O2 -std=c++11
 
-LDFLAGS := -lpthread -rdynamic
+LDFLAGS := -lpthread -rdynamic -lmysqlclient -L$(BUILD_ROOT)/mysql/lib
 
 ifeq ($(USE_HTTP), true)
   CFLAGS += -DUSE_HTTP
@@ -54,7 +54,8 @@ $(BIN): $(LINK_OBJ)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 $(LINK_OBJ_DIR)/%.o: %.cpp
-	$(CC) $(CFLAGS) -I$(INCLUDE_PATH) -o $@ -c $(filter %.cpp, $^)
+	$(CC) $(CFLAGS) -I$(INCLUDE_PATH) -I$(INCLUDE_SQL_PATH) -o $@ -c $(filter %.cpp, $^)
 
 $(DEP_DIR)/%.d: %.cpp
-	$(CC) $(CFLAGS) -I$(INCLUDE_PATH) -MM $^ >> $@
+	echo -n $(LINK_OBJ_DIR)/ > $@
+	$(CC) $(CFLAGS) -I$(INCLUDE_PATH) -I$(INCLUDE_SQL_PATH) -MM $^ >> $@
