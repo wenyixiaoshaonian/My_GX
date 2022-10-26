@@ -12,10 +12,14 @@ OBJDUMP     = $(CROSS_COMPILE)objdump
 
 CFLAGS := -Wall -O2 -std=c++11
 
-LDFLAGS := -lpthread -rdynamic -lmysqlclient -L$(BUILD_ROOT)/mysql/lib
+LDFLAGS := -lpthread -rdynamic -lmysqlclient -L$(BUILD_ROOT)/mysql/lib -lhiredis
 
 ifeq ($(USE_HTTP), true)
   CFLAGS += -DUSE_HTTP
+endif
+
+ifeq ($(USE_REDIS), true)
+  CFLAGS += -DUSE_REDIS
 endif
 
 ifeq ($(DEBUG), true)

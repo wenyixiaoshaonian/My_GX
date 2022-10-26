@@ -4,6 +4,7 @@
 #include "mgx_conf.h"
 #include "mgx_file.h"
 #include "mgx_mysql.h"
+#include "mgx_redis.h"
 
 extern Mgx_th_pool g_mgx_th_pool;
 
@@ -80,7 +81,6 @@ void Mgx_http_socket::th_msg_process_func(char *buf)
     char *uri = pmsg_hdr->uri;
     pmgx_conn_t c;
     int fd = -1;
-    Mgx_mysql *sql;
     mgx_http_response_t http_res;
     c = pmsg_hdr->pconn;
     http_res.headers["Server"] = "Mgx http server";
@@ -127,10 +127,16 @@ void Mgx_http_socket::th_msg_process_func(char *buf)
         http_res.response_body = new char[res_body.size() + 1]();
         memcpy(http_res.response_body, res_body.c_str(), res_body.size());
     }
-    /* add mysql operation......*/
-    // sql = new Mgx_mysql();
-    // c->sql->query_table("student");
-    /* add mysql operation......*/
+    /* add mysql/redis operation......*/
+#ifdef USE_REDIS
+    // redis = new Mgx_Redis();
+    // redis->set("name", "Mayuyu");    //write
+    c->redis->get("name");              //read
+#else
+    // c->sql = new Mgx_mysql();
+    c->sql->query_table("student");
+#endif
+    /* add mysql/redis operation......*/
     http_write_response(&http_res, pmsg_hdr);
 
 out:

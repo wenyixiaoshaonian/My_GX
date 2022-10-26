@@ -17,6 +17,7 @@
 #include "mgx_comm.h"
 #include "mgx_thread.h"
 #include "mgx_mysql.h"
+#include "mgx_redis.h"
 
 #define DEFAULT_LISTEN_PORT  100000
 #define DEFAULT_WORKER_CONNS 1024
@@ -55,6 +56,7 @@ struct _mgx_conn {
     struct sockaddr    conn_sockaddr;
     pthread_mutex_t m_mutex;
     Mgx_mysql *sql;                 //mysql
+    Mgx_Redis *redis;               //redis
 
     /* recv */
     unsigned char recv_stat;        /* receiving status of the current connection */

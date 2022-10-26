@@ -46,7 +46,6 @@ bool Mgx_mysql::connect(const char* HOST, const char* USER, const char* PASSWORD
     //返回false则连接失败，返回true则连接成功  
     if (!(mysql_real_connect(_mysql, HOST, USER, PASSWORD, DATABASE_NAME, PORT, NULL, 0)))  // 主机用户名、密码、数据库名、端口号
     {
-        printf("Error connecting to database:%s\n", mysql_error(_mysql));
         mgx_log(MGX_LOG_STDERR, "Error connecting to database:%s\n", mysql_error(_mysql));
         return false;
     }

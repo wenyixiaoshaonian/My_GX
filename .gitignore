@@ -1,0 +1,6 @@
+app/.dep/*  
+app/.link_obj/*
+max_clients 10000
+log/*
+mgx
+mgx.conf

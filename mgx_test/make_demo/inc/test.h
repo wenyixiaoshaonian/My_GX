@@ -4,4 +4,4 @@
 #include <string.h>
 
 int a = 23423;
-int b = 0;
+int b = 5;

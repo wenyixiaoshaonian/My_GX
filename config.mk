@@ -16,3 +16,5 @@ BUILD_DIR = $(BUILD_ROOT)/signal/  \
 export DEBUG = false
 
 export USE_HTTP = true
+
+export USE_REDIS = false

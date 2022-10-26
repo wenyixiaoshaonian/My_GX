@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include "mgx_mysql.h"
+#include "mgx_redis.h"
 
 void mgx_conn_t::get_one_to_use()
 {
@@ -41,7 +42,11 @@ void Mgx_socket::conn_pool_init()
 
     for (int i = 0; i < m_worker_conns; i++) {
         pconn = new mgx_conn_t();
+#ifdef USE_REDIS
+        pconn->redis = new Mgx_Redis();
+#else
         pconn->sql = new Mgx_mysql();
+#endif
         pconn->get_one_to_use();
         m_pconns_queue.push(pconn);
         m_pconns_free_queue.push(pconn);
