@@ -28,18 +28,6 @@ export USE_HTTP = false
 - Implementation of tcp mode in subclass [Mgx_logic_socket](./bussiness/mgx_logic_socket.cpp)
 - Implementation of http mode in subclass [Mgx_http_socket](./http/mgx_http_socket.cpp)
 
-
-
-In addition, this project also implements a coroutine library, and implements a set of cosocket's APIs based on this coroutine library, but note that it's not integrated into above framework. You can see their use in the test directory.
-
-Mainly realize code:
-
-- [coroutine](./misc/mgx_coroutine.cpp)
-- [coroutine schedule](./misc/mgx_coroutine_scheduler.cpp)
-- [cosocket](./misc/mgx_cosocket.cpp)
-
-Note: The coroutine library currently only implements x86-64 and ARM64 platforms
-
 ### Quick Start
 
 start in host machine
