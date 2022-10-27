@@ -2,7 +2,7 @@
 
 ## **使用 epoll, 连接池和线程池实现的高性能网络框架 (支持 tcp 和 http)**
 
-该框架不依赖于任何第三方组件
+该框架不依赖于任何第三方组件（除了mysql/redis）
 
 ### 主要实现了以下几点
 
@@ -57,8 +57,7 @@ curl 127.0.0.1:8081  # or view web page in browser
 
 你可以在浏览器中访问 http://127.0.0.1:8081.
 
-![image-20220211203019092](https://img.caiyifan.cn/typora_picgo/image-20220211203019092.png) 
-
-
 ### Mgx 的架构简图
-![](https://img.caiyifan.cn/mgx_structure_new.jpg)
+![image](https://user-images.githubusercontent.com/33289788/198247693-2be7fa86-91e0-4d95-82db-61504ef4d5f2.png)
+
+![image](https://user-images.githubusercontent.com/33289788/198247721-7cd7afd0-570b-40db-8b63-a9838888b170.png)
