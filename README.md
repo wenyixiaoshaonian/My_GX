@@ -2,7 +2,7 @@
 
 ## **A high performance network framework using epoll, connections pool and threads pool (support tcp and http)**
 
-The framework doesn't depend on any third party components
+The framework doesn't depend on any third party components(expend mysql\redis)
 
 ### The framework mainly implements the following features
 
