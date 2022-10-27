@@ -59,8 +59,8 @@ curl 127.0.0.1:8081  # or view web page in browser
 
 You can access http://127.0.0.1:8081 to view the web page in browser
 
-![image-20220211203019092](https://img.caiyifan.cn/typora_picgo/image-20220211203019092.png) 
-
 ### The general structure of Mgx
+![image](https://user-images.githubusercontent.com/33289788/198247240-d637ec92-ddfe-4dd6-9344-e18ac0f73e4d.png)
 
-![](https://img.caiyifan.cn/mgx_structure_new.jpg)
+![image](https://user-images.githubusercontent.com/33289788/198247154-29127906-a971-41e8-99c5-9c2d6378f521.png)
+
