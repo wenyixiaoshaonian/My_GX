@@ -16,6 +16,7 @@ The framework doesn't depend on any third party components(expend mysql\redis)
 - delay reclaiming connections in connection pool
 - heartbeat packet mechanism and detection timer queue to reclain connections
 - using specific message format to solve tcp packet sticking problem
+- supporting mysql/redis database
 
 
 
