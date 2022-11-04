@@ -11,15 +11,16 @@ Mgx_coroutine::Mgx_coroutine(co_func_t func, void *arg)
     int ret = posix_memalign(&m_stack, getpagesize(), m_stack_size);
     MGX_ASSERT(ret == 0, "posix_memalign error");
 
-    void **stack = (void **)(m_stack + m_stack_size);
-    stack[-1] = nullptr;
+    void *stack = (m_stack + m_stack_size);
 
     m_ctx = new mgx_ctx_t;
 #ifdef __x86_64__
-    m_ctx->rsp = static_cast<char *>(static_cast<void *>(stack)) - (sizeof(char *) * 2);
+    m_ctx->rbp = m_stack;
+    m_ctx->rsp = stack - (sizeof(void *));
     m_ctx->rip = (void *) _exec;
 #elif __aarch64__
-    m_ctx->sp = static_cast<char *>(stack) - (sizeof(char *) * 2);
+    m_ctx->x29 = m_stack;
+    m_ctx->sp = stack - (sizeof(void *));
     m_ctx->x30 = (void *) _exec;
 #else
     #error "Not implement in this architecure yet !"
@@ -124,6 +125,7 @@ bool Mgx_coroutine::resume()
     m_status = COROUTINE_STATUS::RUNNING;
     _switch(m_scheduler->get_ctx(), m_ctx);
     m_scheduler->set_current_coroutine(nullptr);
+    printf("======> set_current_coroutine nullptr\n");
     return m_status != COROUTINE_STATUS::EXITED;
 }
 

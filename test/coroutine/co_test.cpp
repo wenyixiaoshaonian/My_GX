@@ -7,7 +7,7 @@
 
 int g_pid = getpid();
 
-#define USE_COROUTINE_SCHEDULER
+//#define USE_COROUTINE_SCHEDULER
 
 #define DEFINE_FUNC(NUM)   \
     void func##NUM(void *arg)  \
@@ -17,11 +17,12 @@ int g_pid = getpid();
         for (;;) { \
             char *str = (char *)arg; \
             printf("======> co%d: %s\n", NUM, str);\
-            /*co->yield();*/  \
-            long t1 = sch->get_now_ms(); \
+            sleep(2); \
+            co->yield(); \
+            /*long t1 = sch->get_now_ms(); \
             co->msleep(NUM * 1000); \
             long t2 = sch->get_now_ms(); \
-            printf("co%d sleep %ldms\n", NUM, t2 - t1); \
+            printf("co%d sleep %ldms\n", NUM, t2 - t1); \ */ \
         } \
     }
 
