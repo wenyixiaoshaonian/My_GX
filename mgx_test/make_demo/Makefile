@@ -24,7 +24,7 @@ export INCLUDE_PATH = $(BUILD_ROOT)/inc
 
 all: $(DEPS) $(OBJS) $(BIN)
 
-#include $(DEPS)
+include $(DEPS)
 
 $(BIN):$(OBJS)
 	$(CC) $(CFLAGS)  -o $@ $^

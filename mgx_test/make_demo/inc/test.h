@@ -3,5 +3,5 @@
 #include <unistd.h>
 #include <string.h>
 
-int a = 23423;
-int b = 5;
+int a = 123;
+int b = 6;
