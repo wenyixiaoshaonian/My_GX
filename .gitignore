@@ -4,3 +4,8 @@ max_clients 10000
 log/*
 mgx
 mgx.conf
+app/*.o
+mgx_test/make_demo/*.d
+mgx_test/make_demo/*.o
+misc/*.o
+test/coroutine/*.o
