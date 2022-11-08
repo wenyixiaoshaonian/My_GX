@@ -18,3 +18,5 @@ export DEBUG = false
 export USE_HTTP = true
 
 export USE_REDIS = false
+
+export USE_CO = true

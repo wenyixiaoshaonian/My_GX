@@ -22,6 +22,10 @@ ifeq ($(USE_REDIS), true)
   CFLAGS += -DUSE_REDIS
 endif
 
+ifeq ($(USE_CO), true)
+  CFLAGS += -DUSE_CO
+endif
+
 ifeq ($(DEBUG), true)
   VERSION = debug
   CFLAGS += -g
