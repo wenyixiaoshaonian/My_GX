@@ -14,7 +14,7 @@ struct ser_cli_pair {
 
 void server_reader(void *arg)
 {
-    ser_cli_pair *pair = arg;
+    ser_cli_pair *pair = (ser_cli_pair *)arg;
     Mgx_cosocket *sock = pair->ser_sock;
     int fd = pair->cli_fd;
     delete pair;
@@ -60,7 +60,7 @@ void server(void *arg)
         conn_cnt++;
         if (1000 == conn_cnt) {
             long t2 = sch->get_now_ms();
-            printf("%d: t2 - t1 = %ldms\n", gettid(), t2 - t1);
+            printf("%d: t2 - t1 = %ldms\n", getpid(), t2 - t1);
             conn_cnt = 0;
             t1 = sch->get_now_ms();
         }
@@ -72,15 +72,12 @@ int main(int argc, char *argv[])
 #if 1
     /* fork the same number of processes as CPUs */
     int nr_cpu  = sysconf(_SC_NPROCESSORS_CONF);
-    for (int i = 0; pow(2, i) < nr_cpu; i++)
-        fork();
+    printf("nr_cpu = %d \n",nr_cpu);
+    for (int i = 0; i < nr_cpu - 1; i++) {
+        if(!fork())
+            break;
+    }
 
-    /* set process affinity */
-    pid_t pid = syscall(SYS_gettid);
-    cpu_set_t mask;
-    CPU_ZERO(&mask);
-    CPU_SET(pid % nr_cpu, &mask);
-    sched_setaffinity(0, sizeof(mask), &mask);
 #endif
 
     new Mgx_coroutine(server, nullptr);  // delete by scheduler when coroutine function run finished
