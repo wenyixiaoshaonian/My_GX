@@ -113,12 +113,10 @@ private:
     pmgx_msg_hdr_t get_over_time_timer(time_t cur_time);
     void monitor_timer_th_func();
     void delete_from_timer_queue(pmgx_conn_t pconn);
+
+    /* mgx_cosocket_conet.cpp */
+    void scheduler_init();
+    void server(pmgx_conn_t c);
 };
-
-
-
-
-
-
 
 #endif  // __MGX_CONET_H__

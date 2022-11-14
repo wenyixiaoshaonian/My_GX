@@ -1,11 +1,11 @@
 #include "mgx_coroutine.h"
 #include "mgx_util.h"
-
+#include "mgx_socket.h"
 Mgx_coroutine_scheduler *Mgx_coroutine_scheduler::m_instance = nullptr;
 
 Mgx_coroutine_scheduler::Mgx_coroutine_scheduler()
 {
-    m_epoll_fd = epoll_create(1024);
+    m_epoll_fd = epoll_create(DEFAULT_WORKER_CONNS);
     MGX_ASSERT(m_epoll_fd >= 0, std::string("epoll_create error: ") + strerror(errno));
     m_epoll_wait_default_timeout_ms = MGX_CO_SCHEDULER_EPOLL_WAIT_TIMEOUT;
 

@@ -11,12 +11,12 @@
 
 class Mgx_cosocket {
 private:
-    int m_sockfd;
     Mgx_coroutine_scheduler *m_sch;
 
     int set_socket_opt(int sockfd);
 public:
     Mgx_cosocket();
+    int m_sockfd;
     int socket(int domain, int type, int protocol);
     int close(int sockfd);
     int close();

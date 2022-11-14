@@ -4,6 +4,7 @@
 #include "mgx_socket.h"
 #include "mgx_log.h"
 #include <unordered_map>
+#include "mgx_conet.h"
 
 #define CR    '\r'
 #define LF    '\n'
@@ -57,9 +58,6 @@ typedef struct _mgx_http_response {
 
 #ifndef USE_CO
 class Mgx_http_socket : public Mgx_socket
-#else
-class Mgx_http_socket : public Mgx_conet
-#endif
 {
 public:
     Mgx_http_socket();
@@ -85,7 +83,34 @@ private:
     const char *get_mime_type(const char *extension);
     const char *get_extension(const char *path);
 };
+#else
+class Mgx_http_socket : public Mgx_conet
+{
+public:
+    Mgx_http_socket();
+    virtual ~Mgx_http_socket();
 
+    virtual bool init();
+    virtual void th_msg_process_func(char *buf);
+    virtual void _read_request_handler(pmgx_conn_t c);
+
+private:
+    std::string m_index_path;
+    std::unordered_map<std::string, const char *> m_mime_types;
+
+    ssize_t http_read_request_line(pmgx_conn_t c, pmgx_http_request_t phttp_req);
+    bool    http_parse_request_line(pmgx_http_request_t phttp_req);
+    ssize_t http_read_request_head(pmgx_conn_t c, pmgx_http_request_t phttp_req);
+    bool    http_parse_request_head(pmgx_http_request_t phttp_req);
+    ssize_t http_read_request_body(pmgx_conn_t c, pmgx_http_request_t phttp_req);
+
+    int http_write_response(pmgx_http_response_t phttp_res, pmgx_msg_hdr_t pmsg_hdr);
+
+    void mime_types_init();
+    const char *get_mime_type(const char *extension);
+    const char *get_extension(const char *path);
+};
+#endif
 #define HTTP_STATUS_LINE(CODE) HTTP_STATUS_LINE_##CODE
 
 #define HTTP_STATUS_LINE_200   "200 OK"

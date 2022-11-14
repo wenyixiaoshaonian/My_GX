@@ -7,6 +7,7 @@ export BIN = mgx
 
 BUILD_DIR = $(BUILD_ROOT)/signal/  \
 			$(BUILD_ROOT)/net/ \
+			$(BUILD_ROOT)/conet/ \
 			$(BUILD_ROOT)/process/ \
 			$(BUILD_ROOT)/misc/ \
 			$(BUILD_ROOT)/bussiness/ \

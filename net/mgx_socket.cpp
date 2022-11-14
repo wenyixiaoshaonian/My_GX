@@ -384,7 +384,7 @@ ssize_t Mgx_socket::send_uninterrupt(pmgx_conn_t c, char *buf, ssize_t size)
 #ifndef USE_CO
         ssize_t n = send(c->fd, buf, size, 0);
 #else
-        ssize_t n = c->socket->send(c->fd, buf, size, 0);
+        ssize_t n = c->sock->send(c->fd, buf, size, 0);
 #endif
         if (n >= 0)
             return n;

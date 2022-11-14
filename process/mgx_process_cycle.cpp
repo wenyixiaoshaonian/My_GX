@@ -37,7 +37,6 @@ static inline void mgx_worker_process_init(int worker_nr)
     }
 
     gp_mgx_socket->epoll_init();
-    gp_mgx_socket->Mgx_conet::scheduler_init();
 }
 
 static void mgx_worker_process_cycle(int worker_nr, const char *process_name)
@@ -51,11 +50,14 @@ static void mgx_worker_process_cycle(int worker_nr, const char *process_name)
     mgx_setproctitle(process_name);
     mgx_log(MGX_LOG_NOTICE, "%s %P is running ...", process_name, getpid());
 
+#ifndef USE_CO
     for (;;) {
         gp_mgx_socket->epoll_process_events(-1);
         // ...
     }
-
+#else
+    gp_mgx_socket->scheduler_init();
+#endif
     g_mgx_th_pool.destory_all();
 }
 
