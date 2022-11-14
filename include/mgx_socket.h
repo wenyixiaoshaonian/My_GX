@@ -176,7 +176,7 @@ private:
     /* mgx_socket_request.cpp */
     void send_msg_handler(pmgx_conn_t c);
     virtual void _read_request_handler(pmgx_conn_t c);
-    void read_request_handler(pmgx_conn_t c);
+    void read_request_handler(void *c);
     void read_request_handler_process_v1(pmgx_conn_t c);  /* process package header */
     void read_request_handler_process_v2(pmgx_conn_t c);  /* process package body */
 

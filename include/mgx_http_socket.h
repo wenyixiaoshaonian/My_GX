@@ -109,6 +109,8 @@ private:
     void mime_types_init();
     const char *get_mime_type(const char *extension);
     const char *get_extension(const char *path);
+
+
 };
 #endif
 #define HTTP_STATUS_LINE(CODE) HTTP_STATUS_LINE_##CODE

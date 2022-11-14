@@ -116,7 +116,7 @@ private:
 
     /* mgx_cosocket_conet.cpp */
     void scheduler_init();
-    void server(pmgx_conn_t c);
+    void server(void *c);
 };
 
 #endif  // __MGX_CONET_H__

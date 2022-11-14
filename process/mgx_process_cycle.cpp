@@ -10,6 +10,7 @@
 #include "mgx_setproctitle.h"
 #include "mgx_logic_socket.h"
 #include "mgx_thread_pool.h"
+#include "mgx_conet.h"
 
 extern char **g_argv;
 extern bool g_is_mgx_master;

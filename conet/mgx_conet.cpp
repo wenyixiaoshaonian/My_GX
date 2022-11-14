@@ -49,18 +49,18 @@ bool Mgx_conet::open_listen_skts()
 }
 
 
-void Mgx_conet::server(pmgx_conn_t c)
+void Mgx_conet::server(void *c)
 {
-    // pmgx_conn_t c = *(pmgx_conn_t *)arg;
+    pmgx_conn_t conn = (pmgx_conn_t)c;
     for (;;) {
         struct sockaddr cliaddr = { 0 };
         socklen_t addrlen  = 0 ;
-        int fd = c->sock->accept(&cliaddr, &addrlen);
+        int fd = conn->sock->accept(&cliaddr, &addrlen);
         MGX_ASSERT(fd > 0, strerror(errno));
         pmgx_conn_t c_new = get_conn(fd);
-        c_new->sock = c->sock;
+        c_new->sock = conn->sock;
 
-        new Mgx_coroutine(Mgx_socket::read_request_handler, c_new);
+        new Mgx_coroutine(std::bind(&Mgx_conet::read_request_handler,(void *)c_new), (void *)c_new);
     }
 }
 
@@ -92,6 +92,6 @@ void Mgx_conet::epoll_init()
         c->listen_skt = *it;
         (*it)->pconn = c;
         c->sock = (*it)->sock;
-        new Mgx_coroutine(Mgx_conet::server, c);
+        new Mgx_coroutine(std::bind(&Mgx_conet::server, (void *)this), (void *)c);
     }
 }

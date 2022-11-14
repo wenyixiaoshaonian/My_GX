@@ -42,10 +42,11 @@ Mgx_coroutine::~Mgx_coroutine()
 void Mgx_coroutine::_exec(void *arg)
 {
     Mgx_coroutine *co = static_cast<Mgx_coroutine *>(arg);
-    co_func_t func = co->get_func();
-    void *func_arg = co->get_func_arg();
-    func(func_arg);
-
+    // co_func_t func = co->get_func();
+    // void *func_arg = co->get_func_arg();
+    // func(func_arg);
+    co->m_func(co->m_arg);
+    
     co->set_status(COROUTINE_STATUS::EXITED);
     Mgx_coroutine_scheduler *scheduler = Mgx_coroutine_scheduler::get_instance();
     co->_switch(co->get_ctx(), scheduler->get_ctx());

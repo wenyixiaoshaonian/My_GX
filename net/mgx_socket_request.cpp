@@ -74,9 +74,10 @@ void Mgx_socket::_read_request_handler(pmgx_conn_t c)
     }
 }
 
-void Mgx_socket::read_request_handler(pmgx_conn_t c)
+void Mgx_socket::read_request_handler(void *c)
 {
-    _read_request_handler(c);
+    pmgx_conn_t conn = (pmgx_conn_t)c;
+    _read_request_handler(conn);
 }
 
 ssize_t Mgx_socket::recv_process(pmgx_conn_t c, char *buf, ssize_t buf_size)
