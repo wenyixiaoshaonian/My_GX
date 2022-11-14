@@ -55,7 +55,11 @@ typedef struct _mgx_http_response {
     }
 } mgx_http_response_t, *pmgx_http_response_t;
 
+#ifndef USE_CO
 class Mgx_http_socket : public Mgx_socket
+#else
+class Mgx_http_socket : public Mgx_conet
+#endif
 {
 public:
     Mgx_http_socket();

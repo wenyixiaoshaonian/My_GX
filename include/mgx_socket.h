@@ -18,6 +18,7 @@
 #include "mgx_thread.h"
 #include "mgx_mysql.h"
 #include "mgx_redis.h"
+#include "mgx_cosocket.h"
 
 #define DEFAULT_LISTEN_PORT  100000
 #define DEFAULT_WORKER_CONNS 1024
@@ -40,6 +41,9 @@ typedef struct _mgx_conn mgx_conn_t, *pmgx_conn_t;
 typedef struct {
     int port;
     int fd;
+#ifdef USE_CO
+    Mgx_cosocket *sock;
+#endif
     pmgx_conn_t pconn;
 } mgx_listen_skt_t, *pmgx_listen_skt_t;
 
@@ -47,6 +51,9 @@ struct _mgx_conn {
     typedef std::function<void(pmgx_conn_t)> mgx_event_handler_t;
 
     int fd;     /* connection socket fd */
+#ifdef USE_CO
+    Mgx_cosocket *sock;
+#endif
     pmgx_listen_skt_t listen_skt;
     unsigned int instance:1;
     uint64_t m_cur_seq;

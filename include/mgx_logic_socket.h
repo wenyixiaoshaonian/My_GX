@@ -8,8 +8,11 @@ enum class PKG_TYPE {
     REGISTER,
     LOGIN,
 };
-
+#ifndef USE_CO
 class Mgx_logic_socket : public Mgx_socket
+#else
+class Mgx_logic_socket : public Mgx_conet
+#endif
 {
 public:
     Mgx_logic_socket();

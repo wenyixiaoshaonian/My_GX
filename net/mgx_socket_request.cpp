@@ -81,7 +81,11 @@ void Mgx_socket::read_request_handler(pmgx_conn_t c)
 
 ssize_t Mgx_socket::recv_process(pmgx_conn_t c, char *buf, ssize_t buf_size)
 {
+#ifndef USE_CO
     ssize_t n = recv(c->fd, buf, buf_size, 0);
+#else
+    ssize_t n = c->socket->recv(c->fd, buf, buf_size, 0);
+#endif
     if (n == 0) { /* a socket has performed an orderly shutdown */
         insert_recy_conn_queue(c);
         return -1;

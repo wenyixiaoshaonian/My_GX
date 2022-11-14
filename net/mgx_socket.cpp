@@ -338,7 +338,7 @@ void Mgx_socket::send_msg_th_func()
                 pconn->psend_mem_addr = *it;
                 it = m_send_list.erase(it);     /* erase can it = it + 1 */
                 m_send_list_cnt--;
-
+send:
                 send_size = send_uninterrupt(pconn, pconn->psend_buf, pconn->rest_send_size);
 
                 if (send_size > 0) {
@@ -353,10 +353,7 @@ void Mgx_socket::send_msg_th_func()
                         pconn->psend_buf += send_size;
                         pconn->rest_send_size -= send_size;
                         pconn->throw_send_cnt++;
-                        if (!epoll_oper_event(pconn->fd, EPOLL_CTL_MOD, EPOLLOUT,
-                                                EPOLL_ES_MOD_ACTION::ADD, pconn)) {
-                            mgx_log(MGX_LOG_STDERR, "epoll_oper_event EPOLL_CTL_MOD error: %s", strerror(errno));
-                        }
+                        goto send;
                     }
                 } else if (send_size == 0) {
                     pconn->throw_send_cnt = 0;
@@ -384,7 +381,11 @@ mutex_unlock:
 ssize_t Mgx_socket::send_uninterrupt(pmgx_conn_t c, char *buf, ssize_t size)
 {
     for (;;) {
+#ifndef USE_CO
         ssize_t n = send(c->fd, buf, size, 0);
+#else
+        ssize_t n = c->socket->send(c->fd, buf, size, 0);
+#endif
         if (n >= 0)
             return n;
         else if (errno == EAGAIN)

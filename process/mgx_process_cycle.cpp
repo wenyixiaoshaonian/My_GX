@@ -37,6 +37,7 @@ static inline void mgx_worker_process_init(int worker_nr)
     }
 
     gp_mgx_socket->epoll_init();
+    gp_mgx_socket->Mgx_conet::scheduler_init();
 }
 
 static void mgx_worker_process_cycle(int worker_nr, const char *process_name)
