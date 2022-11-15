@@ -19,7 +19,7 @@ Mgx_conet::~Mgx_conet()
 bool Mgx_conet::init()
 {
     read_conf();
-    return Mgx_conet::open_listen_skts();
+    return open_listen_skts();
 }
 
 bool Mgx_conet::open_listen_skts()
