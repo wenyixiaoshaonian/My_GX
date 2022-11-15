@@ -26,7 +26,7 @@ public:
 private:
     void send_msg_with_nobody(pmgx_msg_hdr_t pmsg_hdr, unsigned short pkg_type);
 
-
+};
 #else
 class Mgx_logic_socket : public Mgx_conet
 {
@@ -43,7 +43,7 @@ public:
 
 private:
     void send_msg_with_nobody(pmgx_msg_hdr_t pmsg_hdr, unsigned short pkg_type);
-
-#endif
 };
+#endif
+
 #endif // __MGX_LOGIC_SOCKET_H__

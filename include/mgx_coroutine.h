@@ -53,11 +53,12 @@ enum class COROUTINE_STATUS {
     EXITED,
 };
 
-typedef std::function<void ()> co_func_t;
+typedef std::function<void (void *)> co_func_t;
 class Mgx_coroutine_scheduler;
 
 class Mgx_coroutine {
 private:
+
     static long cnt;
     Mgx_coroutine_scheduler *m_scheduler;
     uint64_t m_id;

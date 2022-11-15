@@ -32,7 +32,11 @@ Mgx_logic_socket::~Mgx_logic_socket()
 bool Mgx_logic_socket::init()
 {
     // ...
+#ifndef USE_CO
     return Mgx_socket::init();
+#else
+    return Mgx_conet::init();
+#endif
 }
 
 void Mgx_logic_socket::th_msg_process_func(char *buf)

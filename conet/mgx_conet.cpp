@@ -16,6 +16,12 @@ Mgx_conet::~Mgx_conet()
 
 }
 
+bool Mgx_conet::init()
+{
+    read_conf();
+    return Mgx_conet::open_listen_skts();
+}
+
 bool Mgx_conet::open_listen_skts()
 {
     Mgx_conf *mgx_conf = Mgx_conf::get_instance();
@@ -43,7 +49,7 @@ bool Mgx_conet::open_listen_skts()
         mgx_listen_skt->sock   = sock;
         m_listen_skts.push_back(mgx_listen_skt);
 
-        mgx_log(MGX_LOG_INFO, "listen %d succeed", listen_port);
+        mgx_log(MGX_LOG_INFO, "coroutine listen %d succeed ", listen_port);
     }
     return true;
 }
@@ -60,7 +66,7 @@ void Mgx_conet::server(void *c)
         pmgx_conn_t c_new = get_conn(fd);
         c_new->sock = conn->sock;
 
-        new Mgx_coroutine(std::bind(&Mgx_conet::read_request_handler,(void *)c_new), (void *)c_new);
+        new Mgx_coroutine(std::bind(&Mgx_conet::read_request_handler,this,(void *)c_new), (void *)c_new);
     }
 }
 
@@ -92,6 +98,6 @@ void Mgx_conet::epoll_init()
         c->listen_skt = *it;
         (*it)->pconn = c;
         c->sock = (*it)->sock;
-        new Mgx_coroutine(std::bind(&Mgx_conet::server, (void *)this), (void *)c);
+        new Mgx_coroutine(std::bind(&Mgx_conet::server, this,(void *)c), (void *)c);
     }
 }

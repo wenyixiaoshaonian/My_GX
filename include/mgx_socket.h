@@ -117,8 +117,6 @@ protected:
     void insert_recy_conn_queue(pmgx_conn_t c);
     /* mgx_socket_request.cpp */
     ssize_t recv_process(pmgx_conn_t c, char *buf, ssize_t buf_size);
-
-private:
     int m_listen_cnt = 1;
     int m_worker_conns = DEFAULT_WORKER_CONNS;
     std::vector<pmgx_listen_skt_t> m_listen_skts;

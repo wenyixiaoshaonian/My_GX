@@ -14,7 +14,11 @@
 
 extern char **g_argv;
 extern bool g_is_mgx_master;
+#ifndef USE_CO
 extern Mgx_socket *gp_mgx_socket;
+#else
+extern Mgx_conet *gp_mgx_socket;
+#endif
 extern Mgx_th_pool g_mgx_th_pool;
 extern bool g_mgx_reap;
 extern bool g_mgx_log_rotate;

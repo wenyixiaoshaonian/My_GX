@@ -5,8 +5,11 @@
 #include <cstring>
 #include <unistd.h>
 
+#ifndef USE_CO
 extern Mgx_socket *gp_mgx_socket;
-
+#else
+extern Mgx_conet *gp_mgx_socket;
+#endif
 Mgx_th_pool::Mgx_th_pool()
 {
     m_running_cnt = 0;

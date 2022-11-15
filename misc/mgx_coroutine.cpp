@@ -126,7 +126,6 @@ bool Mgx_coroutine::resume()
     m_status = COROUTINE_STATUS::RUNNING;
     _switch(m_scheduler->get_ctx(), m_ctx);
     m_scheduler->set_current_coroutine(nullptr);
-    printf("======> set_current_coroutine nullptr\n");
     return m_status != COROUTINE_STATUS::EXITED;
 }
 

@@ -16,7 +16,11 @@ char **g_argv;
 bool g_is_mgx_master;
 Mgx_th_pool g_mgx_th_pool;
 
+#ifndef USE_CO
 Mgx_socket *gp_mgx_socket;
+#else
+Mgx_conet *gp_mgx_socket;
+#endif
 
 int main(int argc, char *argv[])
 {
