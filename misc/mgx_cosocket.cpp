@@ -84,6 +84,17 @@ int Mgx_cosocket::accept(struct sockaddr *addr, socklen_t *addrlen)
     return sockfd;
 }
 
+void Mgx_cosocket::yield()
+{
+    Mgx_coroutine *co = m_sch->get_current_coroutine();
+
+    co->set_wait_fd(m_sockfd);
+    m_sch->add_event_wait_epoll(co, EPOLLIN);
+    co->yield(false);
+    m_sch->remove_event_wait_epoll(co);
+
+}
+
 ssize_t Mgx_cosocket::recv(int sockfd, void *buf, size_t len, int flags)
 {
     Mgx_coroutine *co = m_sch->get_current_coroutine();

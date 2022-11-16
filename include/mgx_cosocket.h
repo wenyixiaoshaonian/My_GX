@@ -30,6 +30,7 @@ public:
     int connect(const struct sockaddr *addr, socklen_t addrlen, unsigned long timeout = 0);
     ssize_t recv(void *buf, size_t len, int flags);
     ssize_t send(const void *buf, size_t len, int flags);
+    void yield();
 };
 
 #endif

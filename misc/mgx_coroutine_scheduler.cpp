@@ -81,15 +81,6 @@ long Mgx_coroutine_scheduler::get_now_ms()
 
 long Mgx_coroutine_scheduler::get_epoll_wait_timeout_ms()
 {
-    if (!m_co_sleep_rbtree->empty() && m_co_ready_list->empty()) {
-        long sleep_ms = m_co_sleep_rbtree->begin()->first;
-        long now_ms = get_now_ms();
-        if (sleep_ms > now_ms) {
-            long diff_ms = sleep_ms - now_ms;
-            return std::min(diff_ms, m_epoll_wait_default_timeout_ms);
-        }
-    }
-
     return m_epoll_wait_default_timeout_ms;
 }
 
