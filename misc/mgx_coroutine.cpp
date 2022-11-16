@@ -9,7 +9,9 @@ Mgx_coroutine::Mgx_coroutine(co_func_t func, void *arg)
 
     m_stack_size = MGX_CO_STACK_SIZE;
     int ret = posix_memalign(&m_stack, getpagesize(), m_stack_size);
-    MGX_ASSERT(ret == 0, "posix_memalign error");
+    if(ret < 0) {
+        mgx_log(MGX_LOG_STDERR, "posix_memalign error: %s",strerror(errno));
+    }
 
     void *stack = (m_stack + m_stack_size);
 

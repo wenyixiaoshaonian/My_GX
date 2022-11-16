@@ -21,7 +21,8 @@ void client(void *arg)
     seraddr.sin_port = htons(PORT);
 
     int ret = sock.connect((const struct sockaddr *)&seraddr, sizeof(seraddr), CONNECT_TIMEOUT);
-    MGX_ASSERT(ret == 0, strerror(errno));
+    if(ret < 0)
+        mgx_log(MGX_LOG_STDERR, "connect error: %s",strerror(errno));
 
     const char *str = "hello";
     sock.send(str, strlen(str), 0);

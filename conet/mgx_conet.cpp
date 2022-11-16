@@ -62,7 +62,10 @@ void Mgx_conet::server(void *c)
         struct sockaddr cliaddr = { 0 };
         socklen_t addrlen  = 0 ;
         int fd = conn->sock->accept(&cliaddr, &addrlen);
-        MGX_ASSERT(fd > 0, strerror(errno));
+        if(fd < 0) {
+            mgx_log(MGX_LOG_STDERR, "create coroutine socket error: %s",strerror(errno));
+            continue;
+        }
         pmgx_conn_t c_new = get_conn(fd);
         c_new->sock = conn->sock;
 
