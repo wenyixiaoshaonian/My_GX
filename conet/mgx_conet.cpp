@@ -66,7 +66,8 @@ void Mgx_conet::server(void *c)
         pmgx_conn_t c_new = get_conn(fd);
         c_new->sock = conn->sock;
 
-        new Mgx_coroutine(std::bind(&Mgx_conet::read_request_handler,this,(void *)c_new), (void *)c_new);
+        c_new->coroutine = new Mgx_coroutine(std::bind(&Mgx_conet::read_request_handler,this,(void *)c_new), (void *)c_new);
+
     }
 }
 
@@ -98,6 +99,6 @@ void Mgx_conet::epoll_init()
         c->listen_skt = *it;
         (*it)->pconn = c;
         c->sock = (*it)->sock;
-        new Mgx_coroutine(std::bind(&Mgx_conet::server, this,(void *)c), (void *)c);
+        c->coroutine = new Mgx_coroutine(std::bind(&Mgx_conet::server, this,(void *)c), (void *)c);
     }
 }

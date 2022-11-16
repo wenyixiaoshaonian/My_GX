@@ -80,7 +80,8 @@ public:
     void yield(bool push_ready_list = true);
     bool resume();
     void msleep(int ms);
-    
+    void del_co();
+
     Mgx_coroutine_scheduler* get_schduler();
     void set_wait_fd(int fd);
     int get_wait_fd();
@@ -90,6 +91,7 @@ public:
     void *get_func_arg();
     uint64_t get_id();
     mgx_ctx_t *get_ctx();
+
 };
 
 class Mgx_coroutine_scheduler {

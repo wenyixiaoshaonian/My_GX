@@ -168,6 +168,7 @@ void Mgx_socket::recy_conn_th_func()
                     m_total_recy_conns_cnt--;
                     it = m_recy_conn_set.erase(it);     /* erase can it = it + 1 */
                     mgx_log(MGX_LOG_DEBUG, "recy a connection, fd: %d", pconn->fd);
+                    pconn->coroutine->del_co();
                     free_conn(pconn);
 
                     err = pthread_mutex_unlock(&m_recy_queue_mutex);

@@ -39,6 +39,12 @@ Mgx_coroutine::~Mgx_coroutine()
     free(m_stack);
 }
 
+void Mgx_coroutine::del_co()
+{
+    delete m_ctx;
+    free(m_stack);
+}
+
 void Mgx_coroutine::_exec(void *arg)
 {
     Mgx_coroutine *co = static_cast<Mgx_coroutine *>(arg);

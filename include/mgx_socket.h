@@ -43,6 +43,7 @@ typedef struct {
     int fd;
 #ifdef USE_CO
     Mgx_cosocket *sock;
+    Mgx_coroutine *coroutine;
 #endif
     pmgx_conn_t pconn;
 } mgx_listen_skt_t, *pmgx_listen_skt_t;
@@ -53,6 +54,7 @@ struct _mgx_conn {
     int fd;     /* connection socket fd */
 #ifdef USE_CO
     Mgx_cosocket *sock;
+    Mgx_coroutine *coroutine;
 #endif
     pmgx_listen_skt_t listen_skt;
     unsigned int instance:1;
