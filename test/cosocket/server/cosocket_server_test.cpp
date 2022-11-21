@@ -79,6 +79,13 @@ int main(int argc, char *argv[])
     }
 
 #endif
+    /* set process affinity with cpu*/
+    pid_t tid = syscall(SYS_gettid);
+    cpu_set_t mask;
+    CPU_ZERO(&mask);
+    CPU_SET(tid % nr_cpu, &mask);
+    printf("tid : %d \n",tid);
+    sched_setaffinity(0, sizeof(mask), &mask);
 
     new Mgx_coroutine(server, nullptr);  // delete by scheduler when coroutine function run finished
     for (;;) {
