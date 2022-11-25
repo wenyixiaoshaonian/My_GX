@@ -63,7 +63,7 @@ void Mgx_coroutine_scheduler::add_event_wait_epoll(Mgx_coroutine *co, uint32_t r
     ev.events = EPOLLERR | EPOLLHUP | rw_event;
     ev.data.ptr = co;
     int ret = epoll_ctl(m_epoll_fd, EPOLL_CTL_ADD, fd, &ev);
-    if(!ret) {
+    if(ret < 0) {
         mgx_log(MGX_LOG_STDERR, "epoll_ctl error: %s", strerror(errno));
         exit(1);
     }
@@ -75,7 +75,7 @@ void Mgx_coroutine_scheduler::remove_event_wait_epoll(Mgx_coroutine *co)
     int fd = co->get_wait_fd();
     struct epoll_event ev = { 0 };
     int ret = epoll_ctl(m_epoll_fd, EPOLL_CTL_DEL, fd, &ev);
-    if(!ret)
+    if(ret < 0)
         mgx_log(MGX_LOG_STDERR, "epoll_ctl error: %s", strerror(errno));
 }
 
