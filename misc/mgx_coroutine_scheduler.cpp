@@ -108,7 +108,7 @@ void Mgx_coroutine_scheduler::schedule()
     }
 
     /* ready queue */
-    if (!m_co_ready_list->empty()) {
+    while (!m_co_ready_list->empty()) {
         Mgx_coroutine *co = m_co_ready_list->front();
         m_co_ready_list->erase(m_co_ready_list->begin());
         if (!co->resume())
