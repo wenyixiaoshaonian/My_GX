@@ -12,20 +12,23 @@ OBJDUMP     = $(CROSS_COMPILE)objdump
 
 CFLAGS := -Wall -O2 -std=c++11
 LDFLAGS := -rdynamic
+INCLUDE_PATH := ../inc/
 
-BIN = co_test
+BIN = cosocket_client_test
 
 all: $(BIN)
 
-LINK_OBJ = co_test.o \
-	coroutine.o \
-	coroutine_scheduler.o \
+LINK_OBJ = cosocket_client_test.o \
+	../coroutine.o \
+	../coroutine_scheduler.o \
+	../cosocket.o \
+
 
 $(BIN): $(LINK_OBJ)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-%.o: %.cpp
-	$(CC) $(CFLAGS) -o $@ -c $(filter %.cpp, $^)
+%.o: %.cpp $(INCLUDE_PATH)/*
+	$(CC) $(CFLAGS) -I$(INCLUDE_PATH) -o $@ -c $(filter %.cpp, $^)
 
 PHONY += clean
 clean:
