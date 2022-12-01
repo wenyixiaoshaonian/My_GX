@@ -5,7 +5,7 @@
 
 int g_pid = getpid();
 
-#define USE_COROUTINE_SCHEDULER
+// #define USE_COROUTINE_SCHEDULER
 
 #ifdef USE_COROUTINE_SCHEDULER
 #define DEFINE_FUNC(NUM)   \
