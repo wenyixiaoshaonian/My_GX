@@ -1,13 +1,23 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <sys/syscall.h>
 
 #define STK_SIZE 100 * 1024
 int n = 0,m = 0;
+int nr_cpu;
 void* ThreadEntry(void* args)
 {
     (void) args;
-    printf("create pthread successful.... %d\n",n++);
+    pid_t tid = syscall(SYS_gettid);
+    
+    /* set process with cpu*/
+    cpu_set_t mask;
+    CPU_ZERO(&mask);
+    CPU_SET(tid % nr_cpu, &mask);
+    printf("tid %d work with %d cpu \n",tid,tid % nr_cpu);
+    sched_setaffinity(0, sizeof(mask), &mask);
+
     while (1)
     {
         sleep(1);
@@ -20,10 +30,20 @@ int main()
     pthread_attr_t attr;
     int ret;
 
+    pid_t tid = syscall(SYS_gettid);
+
+    /* set process with cpu*/
+    nr_cpu  = sysconf(_SC_NPROCESSORS_CONF);
+    cpu_set_t mask;
+    CPU_ZERO(&mask);
+    CPU_SET(tid % nr_cpu, &mask);
+    printf("tid %d work with %d cpu \n",tid,tid % nr_cpu);
+    sched_setaffinity(0, sizeof(mask), &mask);
+
     ret = pthread_attr_init(&attr); /*初始化线程属性*/
     if (ret != 0)
         return -1;
-#if 1
+#if 0
     int i ;
     for(i = 0;i < 100770 + 1 ;i++) {
         ret = pthread_create(&tid1, &attr, ThreadEntry, NULL);
