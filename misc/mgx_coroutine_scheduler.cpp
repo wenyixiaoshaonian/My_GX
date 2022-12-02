@@ -108,7 +108,7 @@ void Mgx_coroutine_scheduler::schedule()
     }
 
     /* ready queue */
-    while (!m_co_ready_list->empty()) {
+    if (!m_co_ready_list->empty()) {
         Mgx_coroutine *co = m_co_ready_list->front();
         m_co_ready_list->erase(m_co_ready_list->begin());
         if (!co->resume())
@@ -124,9 +124,11 @@ void Mgx_coroutine_scheduler::schedule()
         Mgx_coroutine *co = static_cast<Mgx_coroutine *>(m_events[i].data.ptr);
         uint32_t recv_events = m_events[i].events;
         if (recv_events & EPOLLERR) {
+            
             epoll_ctl(m_epoll_fd, EPOLL_CTL_DEL, co->get_wait_fd(), nullptr);
             continue;
         }
+        mgx_log(MGX_LOG_STDERR, "epoll get_wait_fd: %d", co->get_wait_fd());
         if (!co->resume())
             delete co;
     }

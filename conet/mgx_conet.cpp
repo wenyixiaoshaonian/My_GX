@@ -70,7 +70,7 @@ void Mgx_conet::server(void *c)
         c_new->sock = conn->sock;
 
         c_new->coroutine = new Mgx_coroutine(std::bind(&Mgx_conet::read_request_handler,this,(void *)c_new), (void *)c_new);
-        conn->sock->yield();
+        // conn->sock->yield();
     }
 }
 

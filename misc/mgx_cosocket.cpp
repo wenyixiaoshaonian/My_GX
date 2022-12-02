@@ -105,6 +105,7 @@ ssize_t Mgx_cosocket::recv(int sockfd, void *buf, size_t len, int flags)
         if (ret < 0) {
             if (EAGAIN == errno) {
                 co->set_wait_fd(sockfd);
+                mgx_log(MGX_LOG_STDERR, "recv add_event_wait_epoll: %d",sockfd);
                 m_sch->add_event_wait_epoll(co, EPOLLIN);
                 co->yield(false);
                 m_sch->remove_event_wait_epoll(co);

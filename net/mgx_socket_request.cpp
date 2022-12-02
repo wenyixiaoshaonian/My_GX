@@ -14,6 +14,7 @@ extern Mgx_th_pool g_mgx_th_pool;
 
 void Mgx_socket::_read_request_handler(pmgx_conn_t c)
 {
+    
     ssize_t recv_size = recv_process(c, c->precv_buf, c->rest_recv_size);
     if (recv_size <= 0)
         return;

@@ -10,7 +10,6 @@ void* ThreadEntry(void* args)
 {
     (void) args;
     pid_t tid = syscall(SYS_gettid);
-    
     /* set process with cpu*/
     cpu_set_t mask;
     CPU_ZERO(&mask);
@@ -28,10 +27,10 @@ int main()
 {
     pthread_t tid1, tid2, tid3;
     pthread_attr_t attr;
+    size_t stacksize;
     int ret;
 
     pid_t tid = syscall(SYS_gettid);
-
     /* set process with cpu*/
     nr_cpu  = sysconf(_SC_NPROCESSORS_CONF);
     cpu_set_t mask;
@@ -43,6 +42,28 @@ int main()
     ret = pthread_attr_init(&attr); /*初始化线程属性*/
     if (ret != 0)
         return -1;
+#if 0
+    ret = pthread_attr_getstacksize(&attr, &stacksize);
+    if (ret != 0)
+        printf("getstacksize failed...\n");
+
+    printf("before set , pid stack size : %d K\n",stacksize/1024);
+    ret = pthread_attr_setstacksize(&attr, STK_SIZE);
+    if (ret != 0)
+        printf("setstacksize failed...\n");
+
+    ret = pthread_attr_getstacksize(&attr, &stacksize);
+    if (ret != 0)
+        printf("getstacksize failed...\n");
+
+    printf("before set , pid stack size : %d K\n",stacksize/1024);
+#else
+    ret = pthread_attr_getstacksize(&attr, &stacksize);
+    if (ret != 0)
+        printf("getstacksize failed...\n");
+    printf("get pid stack size : %d K\n",stacksize/1024);
+#endif
+
 #if 0
     int i ;
     for(i = 0;i < 100770 + 1 ;i++) {

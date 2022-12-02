@@ -254,7 +254,7 @@ bool Mgx_socket::epoll_process_events(int timeout)
         pmgx_conn_t c = (pmgx_conn_t) m_events[i].data.ptr;
         uintptr_t instance = (uintptr_t)c & 1;
         c = (pmgx_conn_t)((uintptr_t)c & (uintptr_t) ~1);
-
+        mgx_log(MGX_LOG_STDERR, "epoll get_wait_fd: %d", c->fd);
         if (c->fd == -1 || c->instance != instance) {
             /*
              * the stale event from a file descriptor
