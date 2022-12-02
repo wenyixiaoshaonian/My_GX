@@ -19,7 +19,7 @@ void* ThreadEntry(void* args)
 
     while (1)
     {
-        sleep(1);
+        // sleep(1);
     }
 }
 
