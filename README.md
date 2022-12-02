@@ -1,6 +1,6 @@
 [中文](./README_CN.md)
 
-## **A high performance network framework using epoll, connections pool and threads pool (support tcp and http)**
+## **A high performance network framework using cosocket, connections pool and threads pool (support tcp and http)**
 
 The framework doesn't depend on any third party components(expend mysql\redis)
 
@@ -51,5 +51,6 @@ You can access http://127.0.0.1:8081 to view the web page in browser
 ### The general structure of Mgx
 ![image](https://user-images.githubusercontent.com/33289788/198247240-d637ec92-ddfe-4dd6-9344-e18ac0f73e4d.png)
 
-![image](https://user-images.githubusercontent.com/33289788/198247154-29127906-a971-41e8-99c5-9c2d6378f521.png)
+![image](https://user-images.githubusercontent.com/33289788/205205675-374eda84-2d4d-4d5b-9884-b244cddd4063.png)
+
 
