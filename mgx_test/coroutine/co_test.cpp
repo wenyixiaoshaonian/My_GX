@@ -16,7 +16,6 @@ int g_pid = getpid();
         for (;;) { \
             char *str = (char *)arg; \
             printf("======> co%d: %s\n", NUM, str);\
-            /*co->yield(); */ \
             long t1 = sch->get_now_ms(); \
             co->msleep(NUM * 1000); \
             long t2 = sch->get_now_ms(); \
