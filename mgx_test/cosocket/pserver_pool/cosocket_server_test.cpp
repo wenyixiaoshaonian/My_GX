@@ -19,30 +19,33 @@ pthread_cond_t  m_cond = PTHREAD_COND_INITIALIZER;
 fd_ctx fd_t = {{0},0,0};
 void *server_reader(void *arg)
 {
-    int err = pthread_mutex_lock(&m_mutex);   /* lock */
-    if (err != 0)
-        printf("pthread_mutex_lock error: %s", strerror(err));
-    while (fd_t.numr >= fd_t.numw) {
-        pthread_cond_wait(&m_cond, &m_mutex);
+    for(;;) {
+        int err = pthread_mutex_lock(&m_mutex);   /* lock */
+        if (err != 0)
+            printf("pthread_mutex_lock error: %s", strerror(err));
+        while (fd_t.numr >= fd_t.numw) {
+            pthread_cond_wait(&m_cond, &m_mutex);
+        }
+        
+        int fd = fd_t.fd[fd_t.numr++];
+        if(fd_t.numr > 10240)
+            fd_t.numr = 0;
+
+        for (;;) {
+            char buf[1024] = { 0 };
+            int ret = recv(fd, buf, 1024, 0);
+            if (ret > 0) {
+                send(fd, buf, 1024, 0);
+            } else if (ret == 0) {
+                close(fd);
+                break;
+            }
+        }
+        err = pthread_mutex_unlock(&m_mutex);
+        if (err != 0)
+            printf("pthread_mutex_unlock error: %s", strerror(err));
     }
     
-    int fd = fd_t.fd[fd_t.numr++];
-    if(fd_t.numr > 10240)
-        fd_t.numr = 0;
-
-    for (;;) {
-        char buf[1024] = { 0 };
-        int ret = recv(fd, buf, 1024, 0);
-        if (ret > 0) {
-            send(fd, buf, 1024, 0);
-        } else if (ret == 0) {
-            close(fd);
-            break;
-        }
-    }
-    err = pthread_mutex_unlock(&m_mutex);
-    if (err != 0)
-        printf("pthread_mutex_unlock error: %s", strerror(err));
 }
 
 void *server(void *arg)
@@ -127,7 +130,7 @@ int main(int argc, char *argv[])
     pthread_t tid;
     int i,ret;
 
-    for(i = 0;i<10240;i++) {
+    for(i = 0;i<500;i++) {
         ret = pthread_create(&tid, NULL, server_reader, NULL);
         if (ret < 0) {
             printf("pthread_create error, ret=%d\n", ret);
