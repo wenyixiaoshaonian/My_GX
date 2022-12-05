@@ -22,7 +22,6 @@ void server_reader(void *arg)
         char buf[1024] = { 0 };
         int ret = sock->recv(fd, buf, 1024, 0);
         if (ret > 0) {
-            // std::cout << buf;
             sock->send(fd, buf, 1024, 0);
         } else if (ret == 0) {
             sock->close(fd);
@@ -60,19 +59,12 @@ void server(void *arg)
         pair->cli_fd = fd;
         new Mgx_coroutine(server_reader, (void *)pair);
 
-        // conn_cnt++;
-        // if (100 == conn_cnt) {
-        //     long t2 = sch->get_now_ms();
-        //     printf("%d: t2 - t1 = %ldms\n", getpid(), t2 - t1);
-        //     conn_cnt = 0;
-        //     t1 = sch->get_now_ms();
-        // }
     }
 }
 
 int main(int argc, char *argv[])
 {
-#if 1
+#if 0
     /* fork the same number of processes as CPUs */
     int nr_cpu  = sysconf(_SC_NPROCESSORS_CONF);
     printf("nr_cpu = %d \n",nr_cpu);

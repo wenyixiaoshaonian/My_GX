@@ -105,7 +105,7 @@ bool Mgx_socket::open_listen_skts()
         }
 
         /* listen */
-        if (listen(listenfd, MGX_LISTEN_BACKLOG) < 0) {
+        if (listen(listenfd, 500) < 0) {
             mgx_log(MGX_LOG_STDERR, "listen %d error: %s", listen_port, strerror(errno));
             close(listenfd);
             return false;
