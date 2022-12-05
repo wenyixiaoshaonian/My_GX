@@ -22,7 +22,7 @@ void server_reader(void *arg)
         char buf[1024] = { 0 };
         int ret = sock->recv(fd, buf, 1024, 0);
         if (ret > 0) {
-            std::cout << buf;
+            // std::cout << buf;
             sock->send(fd, buf, 1024, 0);
         } else if (ret == 0) {
             sock->close(fd);
@@ -60,13 +60,13 @@ void server(void *arg)
         pair->cli_fd = fd;
         new Mgx_coroutine(server_reader, (void *)pair);
 
-        conn_cnt++;
-        if (1000 == conn_cnt) {
-            long t2 = sch->get_now_ms();
-            printf("%d: t2 - t1 = %ldms\n", getpid(), t2 - t1);
-            conn_cnt = 0;
-            t1 = sch->get_now_ms();
-        }
+        // conn_cnt++;
+        // if (100 == conn_cnt) {
+        //     long t2 = sch->get_now_ms();
+        //     printf("%d: t2 - t1 = %ldms\n", getpid(), t2 - t1);
+        //     conn_cnt = 0;
+        //     t1 = sch->get_now_ms();
+        // }
     }
 }
 
@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
             break;
     }
 
-#endif
+
     /* set process affinity with cpu*/
     pid_t tid = syscall(SYS_gettid);
     cpu_set_t mask;
@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
     CPU_SET(tid % nr_cpu, &mask);
     printf("tid : %d \n",tid);
     sched_setaffinity(0, sizeof(mask), &mask);
-
+#endif
     new Mgx_coroutine(server, nullptr);  // delete by scheduler when coroutine function run finished
     for (;;) {
         Mgx_coroutine_scheduler::get_instance()->schedule();

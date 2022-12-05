@@ -86,6 +86,14 @@ long Mgx_coroutine_scheduler::get_now_ms()
     return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
+long Mgx_coroutine_scheduler::get_now_us()
+{
+    struct timeval tv = { 0 };
+
+    gettimeofday(&tv, nullptr);
+    return (tv.tv_sec * 1000000 + tv.tv_usec);
+}
+
 long Mgx_coroutine_scheduler::get_epoll_wait_timeout_ms()
 {
     return m_epoll_wait_default_timeout_ms;
@@ -127,7 +135,6 @@ void Mgx_coroutine_scheduler::schedule()
             epoll_ctl(m_epoll_fd, EPOLL_CTL_DEL, co->get_wait_fd(), nullptr);
             continue;
         }
-        printf("epoll get_wait_fd: %d", co->get_wait_fd());
         if (!co->resume())
             delete co;
     }

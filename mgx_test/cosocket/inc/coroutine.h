@@ -111,6 +111,7 @@ private:
 public:
     void schedule();
     long get_now_ms();
+    long get_now_us();
     void push_back_ready_list(Mgx_coroutine *co);
     void erase_ready_list(Mgx_coroutine *co);
     void insert_sleep_rbtree(long ms, Mgx_coroutine *co);
