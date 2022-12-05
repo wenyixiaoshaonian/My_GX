@@ -8,10 +8,7 @@ Mgx_coroutine::Mgx_coroutine(co_func_t func, void *arg)
     m_scheduler = Mgx_coroutine_scheduler::get_instance();
 
     m_stack_size = MGX_CO_STACK_SIZE;
-    int ret = posix_memalign(&m_stack, getpagesize(), m_stack_size);
-    if(ret < 0) {
-        printf("posix_memalign error: %s",strerror(errno));
-    }
+    m_stack = malloc(MGX_CO_STACK_SIZE);
 
     void *stack = (m_stack + m_stack_size);
 
@@ -42,9 +39,6 @@ void Mgx_coroutine::del_co()
 void Mgx_coroutine::_exec(void *arg)
 {
     Mgx_coroutine *co = static_cast<Mgx_coroutine *>(arg);
-    // co_func_t func = co->get_func();
-    // void *func_arg = co->get_func_arg();
-    // func(func_arg);
     co->m_func(co->m_arg);
     
     co->set_status(COROUTINE_STATUS::EXITED);
