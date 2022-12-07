@@ -30,34 +30,23 @@ void *server_reader(void *arg)
         int fd = fd_t.fd[fd_t.numr++];
         if(fd_t.numr > 10240)
             fd_t.numr = 0;
-
-<<<<<<< HEAD
     for (;;) {
-        char buf[1024] = { 0 };
-        int ret = recv(fd, buf, 1024, 0);
-        if (ret > 0) {
-            printf("receive finished\n");
-            send(fd, buf, 1024, 0);
-        } else if (ret == 0) {
-            close(fd);
-            break;
-=======
-        for (;;) {
             char buf[1024] = { 0 };
             int ret = recv(fd, buf, 1024, 0);
             if (ret > 0) {
+                printf("receive finished\n");
                 send(fd, buf, 1024, 0);
             } else if (ret == 0) {
                 close(fd);
                 break;
+
             }
->>>>>>> 4528d2beafe98d9551428a3da41411c1eca03da2
+            err = pthread_mutex_unlock(&m_mutex);
+            if (err != 0)
+                printf("pthread_mutex_unlock error: %s", strerror(err));
         }
-        err = pthread_mutex_unlock(&m_mutex);
-        if (err != 0)
-            printf("pthread_mutex_unlock error: %s", strerror(err));
-    }
     
+    }
 }
 
 void *server(void *arg)
