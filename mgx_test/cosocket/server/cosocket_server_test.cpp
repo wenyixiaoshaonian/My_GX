@@ -17,11 +17,13 @@ void server_reader(void *arg)
     ser_cli_pair *pair = (ser_cli_pair *)arg;
     Mgx_cosocket *sock = pair->ser_sock;
     int fd = pair->cli_fd;
+    int i;
     delete pair;
     for (;;) {
         char buf[1024] = { 0 };
         int ret = sock->recv(fd, buf, 1024, 0);
         if (ret > 0) {
+            printf("receive finished\n");
             sock->send(fd, buf, 1024, 0);
         } else if (ret == 0) {
             sock->close(fd);
