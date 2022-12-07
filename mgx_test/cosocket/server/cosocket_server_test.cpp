@@ -64,7 +64,7 @@ void server(void *arg)
 
 int main(int argc, char *argv[])
 {
-#if 0
+#if 1
     /* fork the same number of processes as CPUs */
     int nr_cpu  = sysconf(_SC_NPROCESSORS_CONF);
     printf("nr_cpu = %d \n",nr_cpu);
