@@ -11,10 +11,12 @@
 void *server_reader(void *arg)
 {
     int fd = *(int *)arg;
+    int i;
     for (;;) {
         char buf[1024] = { 0 };
         int ret = recv(fd, buf, 1024, 0);
         if (ret > 0) {
+            printf("receive finished\n");
             send(fd, buf, 1024, 0);
         } else if (ret == 0) {
             close(fd);
