@@ -3,7 +3,7 @@
 long Mgx_coroutine::cnt = 0;
 
 Mgx_coroutine::Mgx_coroutine(co_func_t func, void *arg)
-: m_func(std::move(func)), m_arg(arg)
+: m_func(func), m_arg(arg)
 {
     m_scheduler = Mgx_coroutine_scheduler::get_instance();
 
