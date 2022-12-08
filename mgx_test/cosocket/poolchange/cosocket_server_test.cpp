@@ -9,9 +9,11 @@
 void *server(void *arg)
 {
     struct timeval tv = { 0 };
+    pid_t tid = syscall(SYS_gettid);
     for(;;) {
         gettimeofday(&tv, nullptr);
-        printf(">>=== time gone : %d us\n",tv.tv_usec);
+        printf(">>=== time gone : %d us  tid = %d\n",tv.tv_usec,tid);
+        usleep(1);
     }
 }
 
