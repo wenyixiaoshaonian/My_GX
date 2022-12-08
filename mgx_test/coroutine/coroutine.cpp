@@ -36,14 +36,14 @@ void Mgx_coroutine::del_co()
     free(m_stack);
 }
 
-void Mgx_coroutine::_exec(void *arg)
+void Mgx_coroutine::_exec()
 {
-    Mgx_coroutine *co = static_cast<Mgx_coroutine *>(arg);
+    Mgx_coroutine_scheduler *sch = Mgx_coroutine_scheduler::get_instance();
+    Mgx_coroutine *co = sch->get_current_coroutine();
     co->m_func(co->m_arg);
     
     co->set_status(COROUTINE_STATUS::EXITED);
-    Mgx_coroutine_scheduler *scheduler = Mgx_coroutine_scheduler::get_instance();
-    co->_switch(co->get_ctx(), scheduler->get_ctx());
+    co->_switch(co->get_ctx(), sch->get_ctx());
 }
 
 /*

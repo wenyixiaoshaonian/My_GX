@@ -52,7 +52,7 @@ private:
     int m_wait_fd;
 
     void _switch(mgx_ctx_t *cur_ctx, mgx_ctx_t *new_ctx);
-    static void _exec(void *arg);
+    static void _exec();
 
 public:
     Mgx_coroutine(co_func_t func, void *arg);
