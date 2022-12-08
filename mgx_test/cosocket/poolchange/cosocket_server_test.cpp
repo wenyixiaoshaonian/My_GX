@@ -6,10 +6,6 @@
 #include "cosocket.h"
 #include <pthread.h>
 
-#define PORT 8081
-
-
-
 void *server(void *arg)
 {
     struct timeval tv = { 0 };
@@ -22,17 +18,27 @@ void *server(void *arg)
 
 int main(int argc, char *argv[])
 {
-    pthread_t tid;
+    pthread_t pid;
     int i,ret;
+    int nr_cpu;
+
+    pid_t tid = syscall(SYS_gettid);
+    /* set process with cpu*/
+    nr_cpu  = sysconf(_SC_NPROCESSORS_CONF);
+    cpu_set_t mask;
+    CPU_ZERO(&mask);
+    CPU_SET(tid % nr_cpu, &mask);
+    printf("tid %d work with %d cpu \n",tid,tid % nr_cpu);
+    sched_setaffinity(0, sizeof(mask), &mask);
 
     for(i = 0;i<500;i++) {
-        ret = pthread_create(&tid, NULL, server, NULL);
+        ret = pthread_create(&pid, NULL, server, NULL);
         if (ret < 0) {
             printf("pthread_create error, ret=%d\n", ret);
             return -1;
         }
     }
 
-    pthread_join(tid, NULL);
+    pthread_join(pid, NULL);
     return 0;
 }
